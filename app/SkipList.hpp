@@ -6,6 +6,7 @@
 #include <vector>
 #include <memory>
 #include <limits>
+#include <iostream>
 
 #include "runtimeexcept.hpp"
 
@@ -135,19 +136,27 @@ private:
 	
 	SkipNode<Key, Value>* findNode(SkipNode<Key, Value>* current, const Key& target,  SkipNode<Key, Value>* currentHead) const
 	{
+		current = current->next;
+		currentHead = currentHead->down;
 		while(current != nullptr)
 		{
 			if(current->key == target)
 			{
 				break;
 			}
+			else if(target > current->key && target >= current->next->key)
+			{
+				current = current->next;
+			}
 			else if(target > current->key && target < current->next->key)
 			{
 				current = current->down;
+				if(currentHead && current) currentHead = current->down;
 			}
 			else
 			{
-				current = current->next;
+				current = currentHead->next;
+				if(currentHead) currentHead = currentHead->down;
 			}
 		}
 		return current;
@@ -306,18 +315,18 @@ private:
 //		SkipNode<Key, Value>* headker = topHead->down;
 //		int countlayer = layerCount-1;
 //		while(current)
-//		{
-//			std::cout << "Layer" << countlayer << ": ";
-//			while(current)
 //			{
-//				std::cout << current->key << " ";
-//				current = current->next;
+//				std::cout << "Layer" << countlayer << ": ";
+//				while(current)
+//					{
+//						std::cout << current->key << " ";
+//						current = current->next;
+//					}
+//				std::cout << '\n';
+//				current = headker;
+//				if(headker) headker = headker->down;
+//				--countlayer;
 //			}
-//			std::cout << '\n';
-//			current = headker;
-//			if(headker) headker = headker->down;
-//			--countlayer;
-//		}
 //	}
 };
 
@@ -386,6 +395,10 @@ Key SkipList<Key, Value>::nextKey(const Key & k) const
 	if(!current) throw RuntimeException("key is not in the Skip List");
 	if(!current->next) throw RuntimeException("There is no subsequent key");
 	if(current->key == MaxLimits<Key>()()) throw RuntimeException("k is the largest key in the Skip List.");
+	while(current->down)
+	{
+		current = current->down;
+	}
 	return current->next->key;
 }
 
@@ -396,6 +409,10 @@ Key SkipList<Key, Value>::previousKey(const Key & k) const
 	if(!current) throw RuntimeException("key is not in the Skip List");
 	if(!current->prev) throw RuntimeException("There is no subsequent key");
 	if(current->key == MinLimits<Key>()()) throw RuntimeException("k is the smallest key in the Skip List.");
+	while(current->down)
+	{
+		current = current->down;
+	}
 	return current->prev->key;
 }
 
@@ -433,8 +450,9 @@ bool SkipList<Key, Value>::insert(const Key & k, const Value & v)
 	SkipNode<Key, Value>* newNodeBtm = nullptr;
 	SkipNode<Key, Value>* current = nullptr;
 	int flipCoinCount = 0;
+	++nodeCount;
 	increaseLayerCapacity();
-	while(flipCoin(k, flipCoinCount) && flipCoinCount < layerCapacity-layerCount-1)
+	while(flipCoin(k, flipCoinCount) && flipCoinCount < layerCapacity-2)
 	{
 		++flipCoinCount;
 	}
@@ -446,7 +464,6 @@ bool SkipList<Key, Value>::insert(const Key & k, const Value & v)
 			addLayer();
 		}
 	}
-	//print();
 	for(unsigned i = 0; i <= flipCoinCount; ++i)
 	{
 		current = currentHead->next;
@@ -464,7 +481,6 @@ bool SkipList<Key, Value>::insert(const Key & k, const Value & v)
 		currentHead = currentHead->up;
 		newNodeBtm = newNode;
 	}
-	++nodeCount;
 	return true;
 }
 
