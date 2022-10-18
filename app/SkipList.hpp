@@ -300,25 +300,25 @@ private:
 	
 	void clear();
 	
-	void print()
-	{
-		SkipNode<Key, Value>* current = topHead;
-		SkipNode<Key, Value>* headker = topHead->down;
-		int countlayer = layerCount-1;
-		while(current)
-		{
-			std::cout << "Layer" << countlayer << ": ";
-			while(current)
-			{
-				std::cout << current->key << " ";
-				current = current->next;
-			}
-			std::cout << '\n';
-			current = headker;
-			if(headker) headker = headker->down;
-			--countlayer;
-		}
-	}
+//	void print()
+//	{
+//		SkipNode<Key, Value>* current = topHead;
+//		SkipNode<Key, Value>* headker = topHead->down;
+//		int countlayer = layerCount-1;
+//		while(current)
+//		{
+//			std::cout << "Layer" << countlayer << ": ";
+//			while(current)
+//			{
+//				std::cout << current->key << " ";
+//				current = current->next;
+//			}
+//			std::cout << '\n';
+//			current = headker;
+//			if(headker) headker = headker->down;
+//			--countlayer;
+//		}
+//	}
 };
 
 template<typename Key, typename Value>
@@ -386,7 +386,7 @@ Key SkipList<Key, Value>::nextKey(const Key & k) const
 	if(!current) throw RuntimeException("key is not in the Skip List");
 	if(!current->next) throw RuntimeException("There is no subsequent key");
 	if(current->key == MaxLimits<Key>()()) throw RuntimeException("k is the largest key in the Skip List.");
-	return current->next->k;
+	return current->next->key;
 }
 
 template<typename Key, typename Value>
