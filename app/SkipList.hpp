@@ -39,12 +39,15 @@ static bool flipCoin(std::string s, unsigned i)
 }
 
 template<typename Key, typename Value> class SkipList;
+template<typename Key, typename Value> class SkipListIterator;
+template<typename Value> class SkipListIterator<std::string, Value>;
 
 template<typename Key, typename Value>
 class SkipNode
 {
-	
 	friend class SkipList<Key, Value>;
+	friend class SkipListIterator<Key, Value>;
+	friend class SkipListIterator<std::string, Value>;
 	
 private:
 	
