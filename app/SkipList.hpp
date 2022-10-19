@@ -161,6 +161,7 @@ private:
 		}
 		return current;
 	}
+	
 	bool isFirstParameterGreater(const Key & k1, const Key & k2) const
 	{
 		return k1 > k2;
@@ -185,9 +186,14 @@ private:
 			{
 				break;
 			}
-			else if(target.size() >= current->key.size() && current->next->next != nullptr)
+			else if(target >= current->key && target >= current->next->key && current->next->next != nullptr)
 			{
 				current = current->next;
+			}
+			else if(target > current->key && target < current->next->key)
+			{
+				current = current->down;
+				if(currentHead && current) currentHead = current->down;
 			}
 			else 
 			{
@@ -197,13 +203,13 @@ private:
 		}
 		return current;
 	}
+	
 	bool isFirstParameterGreater(const std::string & k1, const std::string & k2)
 	{
-		return k1.size() > k2.size();
+		return k1 > k2;
 	}
 	
 };
-
 
 
 template<typename Key, typename Value>
@@ -299,8 +305,8 @@ public:
 
 	// I am not requiring you to implement remove.
 
+
 private:
-	
 	SkipNode<Key, Value>* getNodePostion(const Key & k) const;
 	
 	void increaseLayerCapacity();
@@ -309,25 +315,25 @@ private:
 	
 	void clear();
 	
-//	void print()
-//	{
-//		SkipNode<Key, Value>* current = topHead;
-//		SkipNode<Key, Value>* headker = topHead->down;
-//		int countlayer = layerCount-1;
-//		while(current)
-//			{
-//				std::cout << "Layer" << countlayer << ": ";
-//				while(current)
-//					{
-//						std::cout << current->key << " ";
-//						current = current->next;
-//					}
-//				std::cout << '\n';
-//				current = headker;
-//				if(headker) headker = headker->down;
-//				--countlayer;
-//			}
-//	}
+	void print()
+	{
+		SkipNode<Key, Value>* current = topHead;
+		SkipNode<Key, Value>* headker = topHead->down;
+		int countlayer = layerCount-1;
+		while(current)
+			{
+				std::cout << "Layer" << countlayer << ": ";
+				while(current)
+					{
+						std::cout << current->key << " ";
+						current = current->next;
+					}
+				std::cout << '\n';
+				current = headker;
+				if(headker) headker = headker->down;
+				--countlayer;
+			}
+	}
 };
 
 template<typename Key, typename Value>

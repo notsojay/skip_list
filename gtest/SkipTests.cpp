@@ -36,9 +36,95 @@ namespace{
 		sl.insert("Shindler", "ICS 46");
 		EXPECT_TRUE(sl.find("Shindler") == "ICS 46");
 	}
-
-
-
+	
+	TEST(SampleTests, SkipListTest3)
+	{
+		SkipList<std::string, std::string> sl;
+		for(int i = 0; i < 100; ++i)
+		{
+			sl.insert(std::to_string(i+100), std::to_string(i+100))
+		}
+		sl.insrt("jiahaoliang", "ICS 46")
+		EXPECT_TRUE(sl.find("jiahaoliang") == "ICS 46");
+	}
+	
+	TEST(SampleTests, SkipListTest4)
+	{
+		SkipList<char, char> sl;
+		for(int i = 33; i < 126; ++i)
+		{
+			sl.insert(static_cast<char>(i), static_cast<char>(i));
+		}
+		EXPECT_TRUE(sl.find('a') == "a");
+	}
+	
+	TEST(SampleTests, SkipListTest5)
+	{
+		SkipList<int, int> sl;
+		for(int i = 0; i < 10; ++i)
+		{
+			sl.insert(i, i);
+		}
+		EXPECT_TRUE(sl.size() == 10);
+	}
+	
+	TEST(SampleTests, SkipListTest6)
+	{
+		SkipList<int, int> sl;
+		for(int i = 0; i < 10; ++i)
+		{
+			sl.insert(i, i);
+		}
+		EXPECT_FALSE(sl.isEmpty());
+	}
+	
+	TEST(SampleTests, SkipListTest7)
+	{
+		SkipList<std::string, std::string> sl;
+		sl.insert("UCI", "UCI");
+		EXPECT_FALSE(sl.insert("UCI", "UCI"));
+	}
+	
+	TEST(SampleTests, SkipListTest8)
+	{
+		SkipList<double, double> sl;
+		for(int i = 100; i >= 0; --i)
+		{
+			sl.insert(static_cast<double>(i) / 3.14, i);
+		}
+		EXPECT_TRUE(sl.find(0) == 0);
+	}
+	
+	TEST(SampleTests, RuntimeErrorTest1)
+	{
+		SkipList<int, int> sl;
+		for(int i=0; i < 100; i++)
+		{
+			sl.insert(i,i);
+		}
+		EXPECT_THROW(sl.nextKey(99), RuntimeException);
+	}
+	
+	TEST(SampleTests, RuntimeErrorTest2)
+	{
+		SkipList<double, double> sl;
+		for(int i = 100; i >= 0; --i)
+		{
+			sl.insert(static_cast<double>(i) / 3.14, i);
+		}
+		EXPECT_THROW(sl.previousKey(0), RuntimeException);
+	}
+	
+	TEST(SampleTests, RuntimeErrorTest3)
+	{
+		SkipList<double, double> sl;
+		for(int i = 100; i >= 0; --i)
+		{
+			sl.insert(static_cast<double>(i) / 3.14, i);
+		}
+		EXPECT_THROW(sl.find(100), RuntimeException);
+	}
+	
 	TEST(SampleTests, SimpleHeightsTest)
 	{
 		SkipList<unsigned, unsigned> sl;
@@ -136,7 +222,7 @@ namespace{
 		EXPECT_TRUE( expected == sl.allKeysInOrder() );
 	}
 
-	TEST(SampleTests, SimpleLargestAndSmallest)
+	TEST(SampleTests, SimpleLargestAndSmallest1)
 	{
 		SkipList<unsigned, unsigned> sl;
 		for(unsigned i=0; i < 10; i++)
@@ -146,6 +232,16 @@ namespace{
 		EXPECT_TRUE( sl.isSmallestKey( 0 ) and sl.isLargestKey( 9 ) );
 
 	}
-
+	
+	TEST(SampleTests, SimpleLargestAndSmallest2)
+	{
+		SkipList<int, int> sl;
+		for(int i=-50; i < 51; i++)
+		{
+			sl.insert(i, i);
+		}
+		EXPECT_TRUE( sl.isSmallestKey( -50 ) and sl.isLargestKey( 50 ) );
+		
+	}
 
 }
