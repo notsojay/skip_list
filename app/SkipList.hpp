@@ -155,8 +155,15 @@ private:
 			}
 			else
 			{
-				current = currentHead->next;
-				if(currentHead) currentHead = currentHead->down;
+				if(currentHead) 
+				{
+					current = currentHead->next;
+					currentHead = currentHead->down;
+				}
+				else 
+				{
+					return nullptr;
+				}
 			}
 		}
 		return current;
@@ -315,25 +322,7 @@ private:
 	
 	void clear();
 	
-	void print()
-	{
-		SkipNode<Key, Value>* current = topHead;
-		SkipNode<Key, Value>* headker = topHead->down;
-		int countlayer = layerCount-1;
-		while(current)
-			{
-				std::cout << "Layer" << countlayer << ": ";
-				while(current)
-					{
-						std::cout << current->key << " ";
-						current = current->next;
-					}
-				std::cout << '\n';
-				current = headker;
-				if(headker) headker = headker->down;
-				--countlayer;
-			}
-	}
+	//void print();
 };
 
 template<typename Key, typename Value>
@@ -400,7 +389,7 @@ Key SkipList<Key, Value>::nextKey(const Key & k) const
 	SkipNode<Key, Value>* current = getNodePostion(k);
 	if(!current) throw RuntimeException("key is not in the Skip List");
 	if(!current->next) throw RuntimeException("There is no subsequent key");
-	if(current->key == MaxLimits<Key>()()) throw RuntimeException("k is the largest key in the Skip List.");
+	if(current->next->key == MaxLimits<Key>()()) throw RuntimeException("k is the largest key in the Skip List.");
 	while(current->down)
 	{
 		current = current->down;
@@ -414,7 +403,7 @@ Key SkipList<Key, Value>::previousKey(const Key & k) const
 	SkipNode<Key, Value>* current = getNodePostion(k);
 	if(!current) throw RuntimeException("key is not in the Skip List");
 	if(!current->prev) throw RuntimeException("There is no subsequent key");
-	if(current->key == MinLimits<Key>()()) throw RuntimeException("k is the smallest key in the Skip List.");
+	if(current->prev->key == MinLimits<Key>()()) throw RuntimeException("k is the smallest key in the Skip List.");
 	while(current->down)
 	{
 		current = current->down;
@@ -567,5 +556,26 @@ void SkipList<Key, Value>::clear()
 		if(topHeadDown) topHeadDown = topHeadDown->down;
 	}
 }
+
+//template<typename Key, typename Value>
+//void SkipList<Key, Value>::print()
+//{
+//	SkipNode<Key, Value>* current = topHead;
+//	SkipNode<Key, Value>* headker = topHead->down;
+//	int countlayer = layerCount-1;
+//	while(current)
+//	{
+//		std::cout << "Layer" << countlayer << ": ";
+//		while(current)
+//		{
+//			std::cout << current->key << " ";
+//			current = current->next;
+//		}
+//		std::cout << '\n';
+//		current = headker;
+//		if(headker) headker = headker->down;
+//		--countlayer;
+//	}
+//}
 
 #endif

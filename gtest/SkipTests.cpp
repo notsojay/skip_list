@@ -85,15 +85,15 @@ namespace{
 		EXPECT_FALSE(sl.insert("UCI", "UCI"));
 	}
 	
-//	TEST(SampleTests, SkipListTest8)
-//	{
-//		SkipList<double, double> sl;
-//		for(int i = 100; i >= 0; --i)
-//		{
-//			sl.insert(static_cast<double>(i) / 3.14, i);
-//		}
-//		EXPECT_TRUE(sl.find(0) == 0);
-//	}
+	TEST(SampleTests, SkipListTest8)
+	{
+		SkipList<double, double> sl;
+		for(int i = 100; i >= 0; --i)
+		{
+			sl.insert(static_cast<double>(i) / 3.14, i);
+		}
+		EXPECT_TRUE(sl.find(0) == 0);
+	}
 	
 	TEST(SampleTests, RuntimeErrorTest1)
 	{
