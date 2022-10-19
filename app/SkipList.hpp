@@ -46,7 +46,7 @@ class SkipNode
 	
 	friend class SkipList<Key, Value>;
 	
-public:
+private:
 	
 	Key key;
 	Value val;
@@ -322,7 +322,7 @@ private:
 	
 	void clear();
 	
-	void print();
+	//void print();
 };
 
 template<typename Key, typename Value>
