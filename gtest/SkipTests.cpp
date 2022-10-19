@@ -42,9 +42,9 @@ namespace{
 		SkipList<std::string, std::string> sl;
 		for(int i = 0; i < 100; ++i)
 		{
-			sl.insert(std::to_string(i+100), std::to_string(i+100))
+			sl.insert(std::to_string(i+100), std::to_string(i+100));
 		}
-		sl.insrt("jiahaoliang", "ICS 46")
+		sl.insert("jiahaoliang", "ICS 46");
 		EXPECT_TRUE(sl.find("jiahaoliang") == "ICS 46");
 	}
 	
@@ -55,7 +55,7 @@ namespace{
 		{
 			sl.insert(static_cast<char>(i), static_cast<char>(i));
 		}
-		EXPECT_TRUE(sl.find('a') == "a");
+		EXPECT_TRUE(sl.find('a') == 'a');
 	}
 	
 	TEST(SampleTests, SkipListTest5)
